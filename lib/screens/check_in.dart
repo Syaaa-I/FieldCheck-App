@@ -254,6 +254,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
 
               // Location result
               GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: (_lat != null && !_fetchingLocation) ? _openInMaps : null,
                 child: _LocationBox(
                   fetching: _fetchingLocation,

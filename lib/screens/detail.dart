@@ -118,8 +118,9 @@ class DetailScreen extends StatelessWidget {
                   const Divider(color: Color(0xFFEEEEEE)),
                   const SizedBox(height: 12),
 
-                  // GPS rows - tap to show maps
+                  // GPS rows - tap to open maps
                   GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: _openInMaps,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,18 +129,6 @@ class DetailScreen extends StatelessWidget {
                             value: checkIn.latitude.toStringAsFixed(6)),
                         _DetailRow(label: 'Longitude',
                             value: checkIn.longitude.toStringAsFixed(6)),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 14),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.map_outlined, size: 14, color: Color(0xFFE53935)),
-                              SizedBox(width: 4),
-                              Text('Tap to view on map',
-                                  style: TextStyle(fontSize: 12, color: Color(0xFFE53935))),
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -151,13 +140,31 @@ class DetailScreen extends StatelessWidget {
                     value: DateFormat('d MMM yyyy, HH:mm:ss')
                         .format(checkIn.createdAt),
                   ),
+
+                  const SizedBox(height: 4),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: _openInMaps,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.map_outlined, size: 14, color: Color(0xFFE53935)),
+                          SizedBox(width: 4),
+                          Text('Tap to view on map',
+                              style: TextStyle(fontSize: 12, color: Color(0xFFE53935))),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-      
+
       // Button back to home screen (history list)
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFE53935),
