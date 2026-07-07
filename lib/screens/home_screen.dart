@@ -95,9 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Header — outline text, no animation
-// ─────────────────────────────────────────────────────────────────────────────
+// Header
 
 class _Header extends StatelessWidget {
   final VoidCallback onRefresh;
@@ -146,9 +144,7 @@ class _Header extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Empty state
-// ─────────────────────────────────────────────────────────────────────────────
+// Empty State
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState();
@@ -221,9 +217,7 @@ class _DashBorderPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter _) => false;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Check-in card
-// ─────────────────────────────────────────────────────────────────────────────
+// Check-In Card
 
 class _CheckInCard extends StatelessWidget {
   final CheckIn checkIn;

@@ -138,9 +138,7 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Private sub-widget
-// ─────────────────────────────────────────────────────────────────────────────
+// Private sub-widgets
 
 class _DetailRow extends StatelessWidget {
   final String label;

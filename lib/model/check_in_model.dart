@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-/// Matches your file: lib/model/check_in_model.dart
+
 class CheckIn {
   final String id;
   final String note;
-  final String imagePath; // permanent path inside app documents dir
+  final String imagePath; 
   final double latitude;
   final double longitude;
   final double accuracy;
@@ -20,7 +20,6 @@ class CheckIn {
     required this.createdAt,
   });
 
-  // ── JSON serialisation ───────────────────────────────────────────────────
 
   Map<String, dynamic> toMap() => {
         'id': id,

@@ -200,7 +200,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              // ── Note ────────────────────────────────────────────────────
+              // Note
               const _Label('Note'),
               const SizedBox(height: 6),
               TextFormField(
@@ -214,7 +214,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               ),
               const SizedBox(height: 16),
 
-              // ── Take Photo ───────────────────────────────────────────────
+              // Take Photo
               _RedButton(
                 icon: Icons.camera_alt,
                 label: 'Take Photo',
@@ -222,7 +222,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               ),
               const SizedBox(height: 10),
 
-              // ── Image preview ────────────────────────────────────────────
+              // Image Preview
               _ImagePreview(
                 imageFile: _pickedImage != null
                     ? File(_pickedImage!.path)
@@ -231,7 +231,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               ),
               const SizedBox(height: 16),
 
-              // ── Get Location ─────────────────────────────────────────────
+              // Get Location
               _RedButton(
                 icon: Icons.location_on,
                 label: 'Get Location',
@@ -239,7 +239,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               ),
               const SizedBox(height: 10),
 
-              // ── Location result / loading ────────────────────────────────
+              // Location result
               _LocationBox(
                 fetching: _fetchingLocation,
                 lat:      _lat,
@@ -248,7 +248,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
               ),
               const SizedBox(height: 24),
 
-              // ── Save (green) ─────────────────────────────────────────────
+              // Button save
               SizedBox(
                 width: double.infinity,
                 height: 52,
@@ -290,9 +290,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Private sub-widgets
-// ─────────────────────────────────────────────────────────────────────────────
+// Widget
 
 class _Label extends StatelessWidget {
   final String text;

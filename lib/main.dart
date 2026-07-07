@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart'; // matches your screens/home_screen.dart
+import 'screens/home_screen.dart'; 
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/check_in_model.dart'; // → lib/model/check_in_model.dart
+import '../model/check_in_model.dart';
 
-/// Matches your file: lib/service/storage.dart
-/// Persists check-in records as a JSON list in SharedPreferences.
-/// Data survives app restarts (backed by NSUserDefaults on iOS,
-/// SharedPreferences XML on Android).
+
 class StorageService {
   static const String _key = 'fieldcheck_records';
 
-  // ── Read ────────────────────────────────────────────────────────────────
+  // Read
 
   Future<List<CheckIn>> getCheckIns() async {
     final prefs = await SharedPreferences.getInstance();
@@ -22,7 +19,7 @@ class StorageService {
         .toList();
   }
 
-  // ── Write ───────────────────────────────────────────────────────────────
+  // Write
 
   /// Inserts newest record at the top of the list.
   Future<void> saveCheckIn(CheckIn checkIn) async {
@@ -35,7 +32,7 @@ class StorageService {
     );
   }
 
-  // ── Delete ───────────────────────────────────────────────────────────────
+  // Delete
 
   Future<void> deleteCheckIn(String id) async {
     final prefs = await SharedPreferences.getInstance();
