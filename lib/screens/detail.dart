@@ -2,12 +2,23 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../model/check_in_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
-/// Screen 3 : Check-In Detail (Read-only)
+/// Check-In Detail Screen
 class DetailScreen extends StatelessWidget {
   final CheckIn checkIn;
   const DetailScreen({super.key, required this.checkIn});
+
+  Future<void> _openInMaps() async {
+    final url = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=${checkIn.latitude},${checkIn.longitude}',
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +118,32 @@ class DetailScreen extends StatelessWidget {
                   const Divider(color: Color(0xFFEEEEEE)),
                   const SizedBox(height: 12),
 
-                  // GPS + timestamp rows
-                  _DetailRow(label: 'Latitude',
-                      value: checkIn.latitude.toStringAsFixed(6)),
-                  _DetailRow(label: 'Longitude',
-                      value: checkIn.longitude.toStringAsFixed(6)),
+                  // GPS rows - tap to show maps
+                  GestureDetector(
+                    onTap: _openInMaps,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _DetailRow(label: 'Latitude',
+                            value: checkIn.latitude.toStringAsFixed(6)),
+                        _DetailRow(label: 'Longitude',
+                            value: checkIn.longitude.toStringAsFixed(6)),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.map_outlined, size: 14, color: Color(0xFFE53935)),
+                              SizedBox(width: 4),
+                              Text('Tap to view on map',
+                                  style: TextStyle(fontSize: 12, color: Color(0xFFE53935))),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                   _DetailRow(label: 'Accuracy',
                       value: '${checkIn.accuracy.toStringAsFixed(1)} m'),
                   _DetailRow(
@@ -125,6 +157,7 @@ class DetailScreen extends StatelessWidget {
           ],
         ),
       ),
+      
       // Button back to home screen (history list)
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFFE53935),
@@ -139,7 +172,6 @@ class DetailScreen extends StatelessWidget {
 }
 
 // Private sub-widgets
-
 class _DetailRow extends StatelessWidget {
   final String label;
   final String value;

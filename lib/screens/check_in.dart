@@ -5,11 +5,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import '../model/check_in_model.dart'; // → lib/model/check_in_model.dart
-import '../service/storage.dart';       // → lib/service/storage.dart
+import '../model/check_in_model.dart';
+import '../service/storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-/// Matches your file: lib/screens/check_in.dart
-/// Screen 2 – NEW CHECK-IN
+/// Check-In Screen
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});
 
@@ -30,8 +30,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
   double? _accuracy;
   bool    _saving = false;
 
-  // ── Camera ───────────────────────────────────────────────────────────────
-
+  // Camera 
   Future<void> _takePhoto() async {
     final status = await Permission.camera.request();
 
@@ -59,7 +58,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
     }
   }
 
-  // ── GPS ──────────────────────────────────────────────────────────────────
+  // GPS 
 
   Future<void> _getLocation() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -106,7 +105,21 @@ class _CheckInScreenState extends State<CheckInScreen> {
     }
   }
 
-  // ── Save ─────────────────────────────────────────────────────────────────
+  // Location Box
+  Future<void> _openInMaps() async {
+    if (_lat == null || _lng == null) return;
+    final url = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=$_lat,$_lng',
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      _snack('Failed to open maps.');
+    }
+  }
+
+  //  Save 
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
@@ -153,7 +166,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
         .showSnackBar(SnackBar(content: Text(msg)));
   }
 
-  // ── UI ───────────────────────────────────────────────────────────────────
+  //  UI 
 
   @override
   Widget build(BuildContext context) {
@@ -240,12 +253,16 @@ class _CheckInScreenState extends State<CheckInScreen> {
               const SizedBox(height: 10),
 
               // Location result
-              _LocationBox(
-                fetching: _fetchingLocation,
-                lat:      _lat,
-                lng:      _lng,
-                accuracy: _accuracy,
+              GestureDetector(
+                onTap: (_lat != null && !_fetchingLocation) ? _openInMaps : null,
+                child: _LocationBox(
+                  fetching: _fetchingLocation,
+                  lat:      _lat,
+                  lng:      _lng,
+                  accuracy: _accuracy,
+                ),
               ),
+
               const SizedBox(height: 24),
 
               // Button save
@@ -428,6 +445,20 @@ class _LocationBox extends StatelessWidget {
                 const SizedBox(height: 8),
                 _row('Accuracy',
                     accuracy != null ? '${accuracy!.toStringAsFixed(1)} m' : ''),
+                if (lat != null) ...[
+                  const SizedBox(height: 8),
+                  const Divider(height: 1),
+                  const SizedBox(height: 6),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.map_outlined, size: 14, color: Color(0xFFE53935)),
+                      SizedBox(width: 4),
+                      Text('Tap to view on map',
+                          style: TextStyle(fontSize: 12, color: Color(0xFFE53935))),
+                    ],
+                  ),
+                ],
               ],
             ),
     );
